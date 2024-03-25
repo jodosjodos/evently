@@ -4,7 +4,8 @@ import Image from "next/image";
 export default function Home() {
   return (
   <main>
-    <Button>Home button</Button>
+    <Button className=" bg-red-500 text-black">Home button</Button>
   </main>
   );
 }
+ 
