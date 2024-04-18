@@ -3,19 +3,24 @@
 import { revalidatePath } from "next/cache";
 
 import { connectToDatabase } from "@/lib/database";
-import { handleError } from "@/lib/utils";
 
 import { CreateUserParams, UpdateUserParams } from "@/types";
+import { handleError } from "../utils";
 import User from "../models/user.model";
-import Order from "../models/order.model";
 import Event from "../models/event.model";
+import Order from "../models/order.model";
 
 export async function createUser(user: CreateUserParams) {
+  console.log("reaching out");
+
   try {
     await connectToDatabase();
+
     const newUser = await User.create(user);
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
+    console.log(error);
+
     handleError(error);
   }
 }
