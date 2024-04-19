@@ -16,12 +16,16 @@ import { Input } from "@/components/ui/input";
 import { eventFormSchema } from "@/lib/validator";
 import { eventDefaultValues } from "@/constants";
 import Dropdown from "./Dropdown";
+import { Textarea } from "../ui/textarea";
+import { useState } from "react";
+import { FileUploader } from "./FileUploader";
 
 type EventFormProps = {
   userId: string;
   type: "Create" | "Update";
 };
 function EventForm({ userId, type }: EventFormProps) {
+  const [files,setFiles]=useState<File[]>([])
   const initialValues = eventDefaultValues;
   const form = useForm<z.infer<typeof eventFormSchema>>({
     resolver: zodResolver(eventFormSchema),
@@ -64,6 +68,36 @@ function EventForm({ userId, type }: EventFormProps) {
                     onChangeHandler={field.onChange}
                     value={field.value}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex  flex-col gap-5 md:flex-row">
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl className="h-72 ">
+                  <Textarea
+                    placeholder="description"
+                    {...field}
+                    className="textarea rounded-2xl"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+             <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl className="h-72 ">
+                  <FileUploader onFieldChange={field.onChange} imageUrl={field.value} setFiles={setFiles}/>
                 </FormControl>
                 <FormMessage />
               </FormItem>
